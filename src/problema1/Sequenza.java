@@ -1,5 +1,6 @@
 package problema1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,12 @@ public class Sequenza {
         this.nome = nome;
         this.stringhe = stringhe;
     }
+
+    public Sequenza(String nome) {
+        this.nome = nome;
+        this.stringhe = new ArrayList<>();
+    }
+
 
     public void aggiungiStringa(String stringa) {
         stringhe.add(stringa);

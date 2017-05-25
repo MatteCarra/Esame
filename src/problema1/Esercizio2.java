@@ -10,7 +10,7 @@ import java.util.List;
  * Created by matteo on 25/05/17.
  */
 public class Esercizio2 {
-    private static HashMap<String, Sequenza> sequenzeHashMap = new HashMap<>();
+
     private static ArrayList<Sequenza> sequenzeList = new ArrayList<>();
     public static void main(String[] args) throws Exception {
         File input = new File("input.txt");
@@ -20,6 +20,7 @@ public class Esercizio2 {
             String name = line.substring(0, line.indexOf(":"));
 
             String[] stringhe = line.substring(line.indexOf(":") + 1).split(",");
+
             //Devo convertire String[] a ArrayList per poter aggiungere elementi dinamicamente nel caso in cui esista già una sequenza con questo nome
             //Per gio: Ci sarebbe un metodo dedicato ma il loro professore non credo l'abbia fatto
             List<String> stringArrayList = new ArrayList<>();
@@ -27,23 +28,33 @@ public class Esercizio2 {
                 stringArrayList.add(s);
             }
 
-
-            if(sequenzeHashMap.containsKey(name)) {
-                sequenzeHashMap.get(name).aggiungiStringhe(stringArrayList);
+            Sequenza sequenza = getSequenza(name);
+            if(sequenza == null) {
+                sequenza = new Sequenza(name, stringArrayList);
+                sequenzeList.add(sequenza);
             } else {
-                sequenzeHashMap.put(name, new Sequenza(name, stringArrayList));
+                sequenza.aggiungiStringhe(stringArrayList);
             }
-        }
-        reader.close();
 
-        //La HashMap serve solo a popolare le sequenze, a dir la verità. La lascio cmq nel caso serva nel problema 2.
-        sequenzeList = new ArrayList<>(sequenzeHashMap.values());
+
+        }
+
+        reader.close();
 
         punto1();
         punto2();
         punto3();
         punto4();
         punto5();
+    }
+
+    private static Sequenza getSequenza(String name) {
+        for(Sequenza s : sequenzeList) {
+            if(name.equals(s.getNome())) {
+                return s;
+            }
+        }
+        return null;
     }
 
     private static void punto1() throws Exception {
